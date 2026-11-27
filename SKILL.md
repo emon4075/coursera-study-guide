@@ -9,9 +9,10 @@ description: >-
   portfolio repository on GitHub.
 license: MIT
 compatibility: >-
-  Requires Python 3.10+ (python-docx, matplotlib, pillow, numpy, pymupdf),
-  a browser MCP / Chrome DevTools connection for Coursera extraction, and
-  Microsoft Word (Windows) or LibreOffice for PDF export verification.
+  Compatible with Antigravity, Claude Code, and OpenCode. Requires Python 3.10+
+  (python-docx, matplotlib, pillow, numpy, pymupdf), Microsoft Word (Windows)
+  or LibreOffice for PDF verification, and an optional browser MCP (e.g.,
+  chrome-devtools-mcp or Playwright MCP) for automated Coursera extraction.
 ---
 
 # Coursera Study Guide Pipeline
@@ -31,7 +32,7 @@ End-to-end workflow for turning any completed Coursera module into a clean local
 
 ### Phase 1: Course & Module Structure Inspection
 
-Before creating folders or extracting items, use the `browser` subagent (or ask the user to invoke `/browser` if browser tools are unavailable) to inspect:
+Before creating folders or extracting items, use your browser agent or configured browser MCP (e.g., `/browser` in Antigravity, or `chrome-devtools-mcp` / Playwright MCP in Claude Code or OpenCode) to inspect the open course. *(If no browser tool is connected, ask the user to save/export transcripts, `.ipynb` labs, and quiz text into `Module N/raw/` and start at Phase 2.)* Inspect:
 
 1. All modules in the course (`Module 1` .. `Module N`) and exact titles.
 2. Whether the target module renders a **flat sequential item list** or **grouped lesson sections** in the UI (`nav[aria-label="Lessons"]`). Do not invent artificial `Lesson 1` subfolders when Coursera displays a flat list.
@@ -57,7 +58,7 @@ See [Browser Extraction Guide](./references/browser_extraction_guide.md) for exa
 
 ### Phase 2: Raw Extraction & Markdown Materialization
 
-1. Have the `browser` subagent extract every item in `Module N` sequentially into `<Course Root>/Module N/raw/` (saving `MODULE_N_INDEX.json` and `01_*.json` .. `NN_*.json`, plus downloading or extracting `.ipynb`/`.py` lab files and noting key on-screen visual slides/timestamps).
+1. Have the browser agent/MCP (or manual export) save every item in `Module N` sequentially into `<Course Root>/Module N/raw/` (saving `MODULE_N_INDEX.json` and `01_*.json` .. `NN_*.json`, plus downloading or extracting `.ipynb`/`.py` lab files and noting key on-screen visual slides/timestamps).
 2. Convert the extracted JSON payloads into clean Markdown files and archive the JSONs under `_json/` using [json_to_markdown.py](./scripts/json_to_markdown.py):
 
    ```bash
@@ -72,7 +73,7 @@ See [Browser Extraction Guide](./references/browser_extraction_guide.md) for exa
 2. Follow [Diagram Design Checklist](./references/diagram_design_checklist.md):
    - Always use `ax.inset_axes(..., transform=ax.transData)` for embedded grids/images (never `fig.add_axes`).
    - Use explicit `zorder` layers and generous margins so labels never collide with borders.
-   - **Visually inspect every generated PNG** via `read_file` and fix any overlaps before building the document.
+   - **Visually inspect every generated PNG** with your file/image-reading tool and fix any overlaps before building the document.
 
 ### Phase 4: Build `.docx`, Export `.pdf`, and Visually Verify Every Page
 
@@ -86,7 +87,7 @@ See [Browser Extraction Guide](./references/browser_extraction_guide.md) for exa
    python scripts/verify_docx_pages.py "<Course Root>/Module N/Module_N_Title.docx" --export-pdf "<Course Root>/Module N/Module_N_Title.pdf" --pages-dir "<scratch>/pages"
    ```
 
-3. Inspect the rendered page PNGs via `read_file` to confirm zero blank trailing pages, zero orphan headings, and crisp table pagination.
+3. Inspect the rendered page PNGs with your file/image-reading tool to confirm zero blank trailing pages, zero orphan headings, and crisp table pagination.
 
 ### Phase 5: GitHub Setup & Honor-Code-Safe Sharing
 

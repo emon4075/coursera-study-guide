@@ -19,4 +19,4 @@ Every module study guide should include **1 Module Roadmap visual** plus **1 ded
 2. **Explicit `zorder`**: Rounded container boxes (`zorder=2`) will hide shapes drawn inside them unless inner artwork sets `zorder >= 3` and labels set `zorder >= 5`.
 3. **Title/Subtitle Clearance**: Keep at least `0.35`–`0.45` data units between the subtitle and the top border of the first row of cards.
 4. **Badge & Pill Overflow**: Never place long titles and right-aligned badges on the same tight single line—stack them vertically or use multi-line labels inside boxes.
-5. **Visual QA Gate**: Always open every generated `.png` with `read_file` before building the `.docx`. Fix any clipped characters, overlapping pills, or low-contrast text on dark fills immediately.
+5. **Visual QA Gate**: Always open every generated `.png` with your file/image-reading tool before building the `.docx`. Fix any clipped characters, overlapping pills, or low-contrast text on dark fills immediately.

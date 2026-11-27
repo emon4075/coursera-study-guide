@@ -1,6 +1,6 @@
 # Browser Extraction Guide for Coursera (Read-Only)
 
-Follow this playbook when instructing the `browser` subagent to inspect and extract a Coursera course module.
+Follow this playbook when instructing a browser subagent or configured browser MCP (e.g., Antigravity `/browser`, `chrome-devtools-mcp`, or Playwright MCP) to inspect and extract a Coursera course module. *(If running without a browser MCP, ask the user to export transcripts, readings, `.ipynb` notebooks, and quiz reviews manually into `Module <N>/raw/`.)*
 
 ## 1. Non-Negotiable Safety Rules
 - **Read-Only Only**: Never click `Submit`, `Try again`, `Retake`, `Start New Attempt`, `Mark as Completed`, or lab `Reset` buttons.
@@ -16,7 +16,7 @@ Check both the module overview URL (`/home/module/<N>`) and the left **Course ou
 ## 3. Step B — Extract Each Item Type Sequentially
 Save outputs into `<Course Root>/Module <N>/raw/`.
 
-Because `chrome_devtools` `evaluate_script` outputs `.json`, save structured `.json` payloads first (`MODULE_<N>_INDEX.json` and `01_<slug>.json` .. `NN_<slug>.json`), then run `scripts/json_to_markdown.py`.
+If your browser tool (such as `chrome_devtools` `evaluate_script`) outputs `.json`, save structured `.json` payloads first (`MODULE_<N>_INDEX.json` and `01_<slug>.json` .. `NN_<slug>.json`), then run `scripts/json_to_markdown.py`. Otherwise you may write the structured `.md` files directly using the same numbering.
 
 ### Videos
 - Capture title, listed duration, exact video player duration (`mm:ss`), and URL.

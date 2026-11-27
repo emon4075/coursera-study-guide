@@ -1,6 +1,6 @@
 # Coursera Study Guide Skill (`coursera-study-guide`)
 
-A reusable AI agent skill that turns any completed Coursera module into:
+A reusable, cross-agent skill (compatible with **Antigravity**, **Claude Code**, and **OpenCode**) that turns any completed Coursera module into:
 1. A clean, read-only local archive of transcripts, readings, labs/notebooks, and quiz feedback (`raw/`).
 2. High-DPI technical diagrams (`300 DPI`) tailored to each subsection.
 3. A professionally formatted `.docx` study guide + companion `.pdf` verified page-by-page.
@@ -31,43 +31,71 @@ coursera-study-guide/
 
 ## Installation
 
-### Option 1: Clone into Personal Global Skills (Recommended)
-Works automatically across every Coursera course and workspace:
-
-- **Windows (PowerShell):**
-  ```powershell
-  git clone https://github.com/emon4075/coursera-study-guide.git "$env:USERPROFILE\.gemini\skills\coursera-study-guide"
-  ```
-- **macOS / Linux:**
+### 1. Antigravity
+- **Global (all courses):**
+  - Windows (PowerShell):
+    ```powershell
+    git clone https://github.com/emon4075/coursera-study-guide.git "$env:USERPROFILE\.gemini\skills\coursera-study-guide"
+    ```
+  - macOS / Linux:
+    ```bash
+    git clone https://github.com/emon4075/coursera-study-guide.git ~/.gemini/skills/coursera-study-guide
+    ```
+- **Project-level:**
   ```bash
-  git clone https://github.com/emon4075/coursera-study-guide.git ~/.gemini/skills/coursera-study-guide
+  git clone https://github.com/emon4075/coursera-study-guide.git .agents/skills/coursera-study-guide
   ```
 
-### Option 2: Per-Workspace / Team Install
-```bash
-git clone https://github.com/emon4075/coursera-study-guide.git .agents/skills/coursera-study-guide
-```
+### 2. Claude Code
+- **Personal / Global (also available as `/coursera-study-guide`):**
+  - Windows (PowerShell):
+    ```powershell
+    git clone https://github.com/emon4075/coursera-study-guide.git "$env:USERPROFILE\.claude\skills\coursera-study-guide"
+    ```
+  - macOS / Linux:
+    ```bash
+    git clone https://github.com/emon4075/coursera-study-guide.git ~/.claude/skills/coursera-study-guide
+    ```
+- **Project-level:**
+  ```bash
+  git clone https://github.com/emon4075/coursera-study-guide.git .claude/skills/coursera-study-guide
+  ```
 
-### Option 3: Import into MCP Market Hub
-You can import `https://github.com/emon4075/coursera-study-guide` via **MCP Market Hub -> Add skill -> Import from GitHub (Public repo)**.
+### 3. OpenCode
+- **Project-level (native):**
+  ```bash
+  git clone https://github.com/emon4075/coursera-study-guide.git .opencode/skills/coursera-study-guide
+  ```
+- **Cross-agent shared path:**
+  ```bash
+  git clone https://github.com/emon4075/coursera-study-guide.git .agents/skills/coursera-study-guide
+  ```
+
+### 4. MCP Market Hub
+Import `https://github.com/emon4075/coursera-study-guide` via **MCP Market Hub -> Add skill -> Import from GitHub (Public repo)**.
 
 ---
 
-## Python Dependencies
+## Python & Browser Prerequisites
 
 ```bash
 pip install -r requirements.txt
 ```
 
-*(For `.docx` → `.pdf` export and page verification: Microsoft Word on Windows via `pywin32`, or LibreOffice `soffice` on macOS/Linux/Windows.)*
+- **PDF Export & Page Verification:** Microsoft Word on Windows (`pywin32`), or LibreOffice (`soffice`) on macOS/Linux/Windows.
+- **Automated Coursera Extraction (Phase 1):**
+  - **Antigravity:** Run `/browser` with Chrome remote debugging enabled.
+  - **Claude Code / OpenCode:** Attach a browser MCP server such as `chrome-devtools-mcp` or Playwright MCP, **or** export raw transcripts, `.ipynb` labs, and quiz text into `Module N/raw/` and run Phases 2–5 directly.
 
 ---
 
 ## Quick Usage Prompt
 
-Once installed, open your completed Coursera module in Google Chrome (with browser access enabled) and prompt your agent:
+Once installed, prompt your agent in your course workspace:
 
-> `/browser Use the coursera-study-guide skill to extract Module <N> of my open Coursera course in read-only mode and build a complete study guide (.docx and .pdf) with custom diagrams per subsection.`
+> Use the `coursera-study-guide` skill to extract Module `<N>` of my open Coursera course in read-only mode and build a complete study guide (`.docx` and `.pdf`) with custom diagrams per subsection.
+
+*(In Antigravity, prefix with `/browser` to activate the browser subagent; in Claude Code, you can also invoke `/coursera-study-guide`.)*
 
 ---
 
